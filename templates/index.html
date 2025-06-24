@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>URL Shortener UI</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>🔗 URL Shortener</h1>
+
+    <form id="shorten-form">
+      <input type="url" name="target_url" id="target_url" placeholder="Enter long URL" required>
+      <button type="submit">Shorten URL</button>
+    </form>
+
+    <div id="result" style="display:none;">
+      <p>✅ Short URL: <span id="short_url"></span></p>
+      <p>🔐 Admin URL: <span id="admin_url"></span></p>
+    </div>
+
+    <hr>
+
+    <form id="admin-form">
+      <input type="text" id="admin_key" placeholder="Enter admin secret key">
+      <button type="submit">Get Info</button>
+    </form>
+
+    <div id="admin-info"></div>
+
+    <form id="delete-form">
+      <input type="text" id="delete_key" placeholder="Enter admin key to delete">
+      <button type="submit">Delete URL</button>
+    </form>
+
+    <div id="delete-info"></div>
+  </div>
+
+  <script>
+    const api_base = window.location.origin;
+
+    document.getElementById('shorten-form').onsubmit = async (e) => {
+      e.preventDefault();
+      const url = document.getElementById('target_url').value;
+
+      const res = await fetch(api_base + '/url', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({target_url: url})
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        document.getElementById('result').style.display = 'block';
+        document.getElementById('short_url').innerHTML = `<a href="${data.url}"> ${data.url}</a>`;
+        document.getElementById('admin_url').innerHTML = `<a href="${data.admin_url}"> ${data.admin_url}</a>`;
+      } else {
+        alert(data.detail || "Failed to shorten URL");
+      }
+    };
+
+    document.getElementById('admin-form').onsubmit = async (e) => {
+      e.preventDefault();
+      const key = document.getElementById('admin_key').value;
+
+      const res = await fetch(api_base + '/admin/' + key);
+      const data = await res.json();
+
+      if (res.ok) {
+        document.getElementById('admin-info').innerHTML = `
+          <p><strong>Target URL:</strong> ${data.target_url}</p>
+          <p><strong>Clicks:</strong> ${data.clicks}</p>
+          <p><strong>Is Active:</strong> ${data.is_active}</p>
+        `;
+      } else {
+        document.getElementById('admin-info').innerHTML = "<p>❌ Admin key not found.</p>";
+      }
+    };
+
+    document.getElementById('delete-form').onsubmit = async (e) => {
+      e.preventDefault();
+      const key = document.getElementById('delete_key').value;
+
+      const res = await fetch(api_base + '/admin/' + key, {
+        method: 'DELETE'
+      });
+      const data = await res.json();
+
+      document.getElementById('delete-info').innerText = data.detail || "❌ Failed to delete.";
+    };
+  </script>
+</body>
+</html>

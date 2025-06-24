@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+ENV/
+.env
+
+# SQLite database
+*.db
+*.sqlite3
+
+# VS Code settings
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Python environment files
+*.egg-info/
+*.egg
+
+# Pytest cache
+.pytest_cache/
+
+# Logs
+*.log
