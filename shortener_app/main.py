@@ -26,14 +26,6 @@ def get_db():
     finally:
         db.close()
 
-@app.get("/{url}",response_class=HTMLResponse)
-def raise_not_found(request:Request):
-    # raise HTTPException(status_code=404, detail=f"Short URL '{request.url}' not found.")
-    print(request.url)
-    return templates.TemplateResponse("error.html",{
-        "request":request,
-        "message":f"Short URL '{request.url}' not found."
-    })
 
 
 def raise_bad_request(message):
@@ -75,7 +67,7 @@ def forward_to_target_url(
         crud.update_db_clicks(db=db,db_url=db_url)
         return RedirectResponse(url=db_url.target_url)
     else:
-        raise_not_found(request)
+         return crud.raise_not_found(request)
 
 
 
@@ -92,7 +84,7 @@ def get_url_info(
         db_url.admin_url = db_url.secret_key
         return db_url
     else:
-        raise_not_found(request)
+        return crud.raise_not_found(request)
 
 
 @app.delete("/admin/{secret_key}")
@@ -104,4 +96,4 @@ def delete_url(
         message = f"Successfully deleted shortened URL for '{db_url.target_url}'"
         return {"detail": message}
     else:
-        raise_not_found(request)
+        return crud.raise_not_found(request)

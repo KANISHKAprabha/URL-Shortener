@@ -1,6 +1,9 @@
+from urllib.request import Request
 from sqlalchemy.orm import Session
 from . import keygen ,models , schemas
-
+from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
+templates = Jinja2Templates(directory="templates")
 def get_db_url_by_key(db:Session,url_key:str)->models.URL:
     return (
         db.query(models.URL)
@@ -40,3 +43,12 @@ def get_db_url_by_secret_key(db: Session, secret_key: str) -> models.URL:
         .filter(models.URL.secret_key == secret_key, models.URL.is_active)
         .first()
     )
+    
+
+def raise_not_found(request:Request):
+    # raise HTTPException(status_code=404, detail=f"Short URL '{request.url}' not found.")
+    print(request.url)
+    return templates.TemplateResponse("error.html",{
+        "request":request,
+        "message":f"Short URL '{request.url}' not found."
+    })
