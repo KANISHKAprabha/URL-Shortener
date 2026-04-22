@@ -34,7 +34,7 @@ A high-performance and lightweight URL Shortener built using **FastAPI**, **SQLA
 ## 🛠 Installation
 
 ```bash
-git clone https://github.com/yourusername/url-shortener.git
+git clone https://github.com/KANISHKAprabha/url-shortener.git
 cd url-shortener
 python -m venv venv
 source venv/bin/activate  # or venv\Scripts\activate on Windows
@@ -63,7 +63,21 @@ url_shortener/
 └── README.md # Project documentation
 
 ````
+## 📡 API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/` | Serves the URL shortener UI |
+| POST | `/url` | Shorten a long URL, returns short key + admin URL |
+| GET | `/{url_key}` | Redirects to the original target URL |
+| GET | `/admin/{secret_key}` | Get info about a shortened URL |
+| DELETE | `/admin/{secret_key}` | Deactivate/delete a shortened URL |
 
 
 
+## 👩‍💻 Author
+
+**Kanishka Prabha M**  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/kanishka06/)
+[![GitHub](https://img.shields.io/badge/GitHub-black?style=flat&logo=github)](https://github.com/KANISHKAprabha)
 
