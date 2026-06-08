@@ -48,13 +48,12 @@ def serve_ui(request: Request):
 
 
 
-@app.post("/url", response_model = schemas.URLInfo)
-def create_url(url:schemas.URLBase,Session =Depends(get_db)):
+@app.post("/url", response_model=schemas.URLInfo)
+def create_url(url: schemas.URLBase, db: Session = Depends(get_db)):
     if not validators.url(url.target_url):
         raise_bad_request(message="Your provided URL is not valid")
-    db_url = crud.create_db_url(db=db,url=url)
+    db_url = crud.create_db_url(db=db, url=url)
     return get_admin_info(db_url)
-
     
 @app.get("/{url_key}")
 def forward_to_target_url(
