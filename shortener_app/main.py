@@ -8,16 +8,17 @@ from starlette.datastructures import URL
 from .config import get_settings
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
-
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app=FastAPI()
 models.Base.metadata.create_all(bind=engine)
 db=Sessionlocal()
 
 
-# Mount folders (non-intrusive)
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
 
+
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "../static")), name="static")
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "../templates"))
 
 def get_db():
     db=Sessionlocal()
