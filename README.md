@@ -1,6 +1,11 @@
-# 🔗 URL Shortener API
+# 🔗 URL Shortener API 
 
 A high-performance and lightweight URL Shortener built using **FastAPI**, **SQLAlchemy**, and **SQLite/PostgreSQL**. It allows you to shorten long URLs into tiny, easy-to-share links and redirect users to the original URLs with blazing-fast speed.
+
+---
+
+## 🌐 Live Demo
+👉 [https://url-shortener-33sx.onrender.com](https://url-shortener-33sx.onrender.com)
 
 ---
 
